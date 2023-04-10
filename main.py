@@ -1,20 +1,29 @@
 import pygame
 
-pygame.init()
 
-DISPLAY_X = 1600
-DISPLAY_Y = 900
+pygame.init()   #initialise pygame
 
-color_background_screen = (255, 255, 255)
-surface = pygame.display.set_mode((DISPLAY_X, DISPLAY_Y))
-pygame.display.set_caption("jeu de conversion")
-surface.fill(color_background_screen)
-pygame.display.flip()
+"""
+--------la fenetre--------
+"""
+DISPLAY_X = 1600                            #dimension de la fenetre en x
+DISPLAY_Y = 900                             #dimension de la fenetre en y
+COLOR_BACKGROUND_SCREEN = (255, 255, 255)   #choisit la couleur de la fenetre
 
-running = True
+surface = pygame.display.set_mode((DISPLAY_X, DISPLAY_Y))   #genere la fenetre
+pygame.display.set_caption("jeu de conversion")             #met le nom de la fenetre
+
+surface.fill(COLOR_BACKGROUND_SCREEN)       #applique la couleur predefinie a la fenetre
+pygame.display.flip()                       #met a jour sur la fenetre
+
+"""
+--------La boucle du jeu--------
+"""
+running = True                              #definie l'etat du programme
+
 while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+    for event in pygame.event.get():        #recupere tout les evenements present sur la fenetre
+        if event.type == pygame.QUIT:       #permet de fermer le programme si on clic sur la croix
+            running = False                 #on change l'etat du programme
 
-pygame.display.update()
+pygame.quit()                               #met a jour la fenetre
