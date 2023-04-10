@@ -6,3 +6,4 @@ def install(package):
 
 install("pygame")
 install("pytmx")
+install("pyscroll")
