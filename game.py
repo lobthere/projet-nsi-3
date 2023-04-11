@@ -35,6 +35,7 @@ def carte(taille_map):
     tmx_data = load_pygame('map\map1.tmx')
     map_data = pyscroll.data.TiledMapData(tmx_data)
     map_layer = pyscroll.orthographic.BufferedRenderer(map_data, taille_map)
+    map_layer.zoom = 0.1
 
     group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer=1)
     return group
