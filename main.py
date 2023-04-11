@@ -15,6 +15,5 @@ if __name__ == '__main__':
     ------creation de la fenetre------
     """
     surface = game.initialisation(DISPLAY_X, DISPLAY_Y, COLOR_BACKGROUND_SCREEN)        #cree la fenetre a partir d une methode dans le fichier game.py
-    game.carte(surface.get_size())
-    temp = game.group(game.carte)
-    game.run(surface, temp)
+    test = game.carte(surface.get_size())
+    game.run(surface, test)
