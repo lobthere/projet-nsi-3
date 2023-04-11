@@ -18,18 +18,18 @@ def initialisation(display_x, display_y, color_background_screen) :
     
     pygame.display.flip()                                       #met a jour sur la fenetre
 
-    taille_map = surface.get_size()                             #assigne la taille de la map
-    tmx_data = load_pygame('map\map1.tmx')                      #charge la premiere carte
+    taille_map = surface.get_size()                                                     #assigne la taille de la map
+    tmx_data = load_pygame('map\map1.tmx')                                              #charge la premiere carte
     map_data = pyscroll.data.TiledMapData(tmx_data)             
-    map_layer = pyscroll.orthographic.BufferedRenderer(map_data, taille_map)            #
+    map_layer = pyscroll.orthographic.BufferedRenderer(map_data, taille_map)            
     map_layer.zoom = 0.1                                                                #applique un dezoom sur le monde
 
-    player = start()
+    player = start()                                                                    #on cree le personnage a partir de notre fichier player
 
     group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer=1)                #cree la carte et lui assigne un plan
-    group.add(player)
+    group.add(player)                                                                   #ajoute le personnage principal
 
-    return [surface, group]         #retourne plusieurs variables sous la forme d une liste
+    return [surface, group]                     #retourne plusieurs variables sous la forme d une liste
 
 
 def run(surface, map_layer):
@@ -41,6 +41,24 @@ def run(surface, map_layer):
 
         for event in pygame.event.get():        #recupere tout les evenements present sur la fenetre
             if event.type == pygame.QUIT:       #permet de fermer le programme si on clic sur la croix
-                running = False                 #on change l'etat du programme
+                running = False                 #on change l'etat du programme ce qui termine la boucle et ferme le programme
 
     pygame.quit()                               #met a jour la fenetre
+
+
+if __name__ == "__main__":
+    pygame.init()                                                                       #initialise pygame
+    """
+    ------les parametres de la fenetre------
+    """
+    DISPLAY_X = 1600
+    DISPLAY_Y = 900
+    COLOR_BACKGROUND_SCREEN = (255, 255, 255)
+
+    """
+    ------creation de la fenetre------
+    """
+    init = game.initialisation(DISPLAY_X, DISPLAY_Y, COLOR_BACKGROUND_SCREEN)           #cree la fenetre a partir d une methode dans le fichier game.py
+    surface = init[0]                                                                   #on recupere la surface dans une variable afin de la reutiliser plus tard
+    group = init[1]                                                                     #meme chose pour group
+    game.run(surface, group)          
