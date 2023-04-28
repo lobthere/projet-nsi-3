@@ -24,10 +24,10 @@ def initialisation(display_x, display_y, color_background_screen) :
     map_layer = pyscroll.orthographic.BufferedRenderer(map_data, taille_map)            
     map_layer.zoom = 0.1                                                                #applique un dezoom sur le monde
 
-    player = start()                                                                    #on cree le personnage a partir de notre fichier player
+    #player = start()                                                                    #on cree le personnage a partir de notre fichier player
 
     group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer=1)                #cree la carte et lui assigne un plan
-    group.add(player)                                                                   #ajoute le personnage principal
+    #group.add(player)                                                                   #ajoute le personnage principal
 
     return [surface, group]                     #retourne plusieurs variables sous la forme d une liste
 
@@ -37,7 +37,7 @@ def run(surface, map_layer):
 
     while running:
         map_layer.draw(surface)                 #applique la carte sur l'ecran (surface)
-        pygame.display.flip()                   #met a jout
+        pygame.display.flip()                   #met a jour
 
         for event in pygame.event.get():        #recupere tout les evenements present sur la fenetre
             if event.type == pygame.QUIT:       #permet de fermer le programme si on clic sur la croix
