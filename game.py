@@ -1,64 +1,30 @@
 import pygame, pyscroll, pytmx
 from pytmx.util_pygame import load_pygame
-from player import start
 
-def initialisation(display_x, display_y, color_background_screen) :
-    """
-    fenetre(): cree la fenetre du jeu avec ces caracteristiques
-    DISPLAY_X: dimension de la fenetre en x
-    DISPLAY_Y: dimension de la fenetre en y
-    COLOR_BACKGROUND_SCREEN: couleur du fond de la fenetre (3 valeurs en code rgb)
-    """
+class Game:
+    def __init__(self, display_x, display_y, ) :
+        #la fenetre
+        self.surface = pygame.display.set_mode((display_x, display_y))
+        pygame.display.set_caption("jeu de conversion")   
 
+        #charger la carte (tmx)
+        tmx_data = pytmx.util_pygame.load_pygame('map/map1.tmx')
+        map_data = pyscroll.data.TiledMapData(tmx_data)
+        map_layer = pyscroll.orthographic.BufferedRenderer(map_data, self.surface.get_size())
+        map_layer.zoom = 0.1
+        
+        #dessiner le grp de calques
+        self.group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer=1)
 
-    surface = pygame.display.set_mode((display_x, display_y))   #genere la fenetre
-    pygame.display.set_caption("jeu de conversion")             #met le nom de la fenetre
+    def run(self):
+        running = True                              
 
-    surface.fill(color_background_screen)                       #applique la couleur predefinie a la fenetre
-    
-    pygame.display.flip()                                       #met a jour sur la fenetre
+        while running:
 
-    taille_map = surface.get_size()                                                     #assigne la taille de la map
-    tmx_data = load_pygame('map\map1.tmx')                                              #charge la premiere carte
-    map_data = pyscroll.data.TiledMapData(tmx_data)             
-    map_layer = pyscroll.orthographic.BufferedRenderer(map_data, taille_map)            
-    map_layer.zoom = 0.1                                                                #applique un dezoom sur le monde
+            self.group.draw(self.surface)
+            pygame.display.flip()
 
-    #player = start()                                                                    #on cree le personnage a partir de notre fichier player
-
-    group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer=1)                #cree la carte et lui assigne un plan
-    #group.add(player)                                                                   #ajoute le personnage principal
-
-    return [surface, group]                     #retourne plusieurs variables sous la forme d une liste
-
-
-def run(surface, map_layer):
-    running = True                              #definie l'etat du programme
-
-    while running:
-        map_layer.draw(surface)                 #applique la carte sur l'ecran (surface)
-        pygame.display.flip()                   #met a jour
-
-        for event in pygame.event.get():        #recupere tout les evenements present sur la fenetre
-            if event.type == pygame.QUIT:       #permet de fermer le programme si on clic sur la croix
-                running = False                 #on change l'etat du programme ce qui termine la boucle et ferme le programme
-
-    pygame.quit()                               #met a jour la fenetre
-
-
-if __name__ == "__main__":
-    pygame.init()                                                                       #initialise pygame
-    """
-    ------les parametres de la fenetre------
-    """
-    DISPLAY_X = 1600
-    DISPLAY_Y = 900
-    COLOR_BACKGROUND_SCREEN = (255, 255, 255)
-
-    """
-    ------creation de la fenetre------
-    """
-    init = initialisation(DISPLAY_X, DISPLAY_Y, COLOR_BACKGROUND_SCREEN)           #cree la fenetre a partir d une methode dans le fichier game.py
-    surface = init[0]                                                                   #on recupere la surface dans une variable afin de la reutiliser plus tard
-    group = init[1]                                                                     #meme chose pour group
-    run(surface, group)          
+            for event in pygame.event.get():        
+                if event.type == pygame.QUIT:       
+                    running = False
+        pygame.quit()
