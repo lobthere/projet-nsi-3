@@ -1,5 +1,6 @@
 import pygame, pyscroll, pytmx
 from pytmx.util_pygame import load_pygame
+from player import *
 
 class Game:
     def __init__(self, display_x, display_y, ) :
@@ -17,14 +18,29 @@ class Game:
         self.group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer=1)
 
     def run(self):
+        player = Player(320, 240, 0, 0, 'imports\BlueWizard\OwO\Chara_BlueIdle00000.png')
         running = True                              
 
         while running:
 
             self.group.draw(self.surface)
+            player.update()
+            player.draw(self.surface)
             pygame.display.flip()
 
             for event in pygame.event.get():        
                 if event.type == pygame.QUIT:       
                     running = False
+
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_LEFT:
+                        player.move_left()
+                    elif event.key == pygame.K_RIGHT:
+                        player.move_right()
+                    elif event.key == pygame.K_UP:
+                        player.move_up()
+                    elif event.key == pygame.K_DOWN:
+                        player.move_down()
+                else:
+                    player.stop_movement()
         pygame.quit()
