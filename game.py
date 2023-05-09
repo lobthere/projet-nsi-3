@@ -18,13 +18,21 @@ class Game:
         self.group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer=1)
 
     def run(self):
-        player = Player(320, 240, 0, 0, 'imports\BlueWizard\OwO\Chara_BlueIdle00000.png')
+        OwO_to_load_image = []
+        for i in range(20):
+            b = str(i)
+            if len(b) == 1:
+                OwO_to_load_image.append(f"imports\BlueWizard\OwO\Chara_BlueIdle0000{i}.png")
+            else:
+                OwO_to_load_image.append(f"imports\BlueWizard\OwO\Chara_BlueIdle000{i}.png")
+
+        player = Player(320, 240, 0, 0, OwO_to_load_image)
         running = True                              
 
         while running:
 
             self.group.draw(self.surface)
-            player.update()
+            player.update(self.surface)
             player.draw(self.surface)
             pygame.display.flip()
 
