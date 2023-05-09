@@ -1,13 +1,13 @@
 import random
 
-def conversion():
+def conversion(difficulty: int, _player):
     q1 = None
     responce = None
     listes = ['b', 'h', 'd']
     convertFrom = random.choice(listes)
     listes.remove(convertFrom)
     convertTo = random.choice(listes)
-    daNumber = random.randint(0, 1025)
+    daNumber = random.randint(0, difficulty)
     if convertFrom == 'b':
         q1 = bin(daNumber)[2:]
         if convertTo == 'h':
@@ -37,10 +37,10 @@ def conversion():
     userResponce = input(f"qu'elle est la conversion de {q1} en {convert} : ")
     try:
         if str(userResponce) == str(responce):
-            print('bravo')
+            print(f"bravo {_player}")
+            return 1
         else :
-            print('aïe, coup dure pour phillipe')
+            print(f"aïe, coup dure pour {_player}")
+            return 0
     except ValueError:
         print('PETIT CON C DES PT DE NUMBRES QU IL FAUT RENTRER CONNARD')
-    
-conversion()
