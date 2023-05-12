@@ -1,6 +1,23 @@
 import random
+from time import sleep
+from multiprocessing import Process
 
-def conversion(valueMax: int, _player):
+def conversion(valueMax: int, _player, time):
+    def timer(_time):
+        try:
+            for i in range(_time, 0, -1):
+                sleep(1)
+            ValueError
+        except OSError:
+            None
+    def question():
+        try:
+            userResponce = input(f"qu'elle est la conversion de {q1} ({convertFrom}) en {convertTo} : ")
+            OSError
+            return userResponce
+        except ValueError:
+            None
+
     listes = ['bin', 'hex', 'int']
     convertFrom = random.choice(listes)
     listes.remove(convertFrom)
@@ -14,9 +31,15 @@ def conversion(valueMax: int, _player):
         convert = eval(f'{convertTo}({daNumber})')[2:]
     except TypeError:
         convert = eval(f'{convertTo}({daNumber})')
-    userResponce = input(f"qu'elle est la conversion de {q1} en {convertTo} : ")
 
     try:
+        p1 = Process(target=timer(time))
+        p2 = Process(target=question)
+        p1.start()
+        p2.start()
+        p1.join()
+        p2.join()
+        userResponce = question()
         if str(userResponce) == str(convert):
             print(f"Bravo {_player}")
             return 1
@@ -24,4 +47,7 @@ def conversion(valueMax: int, _player):
             print(f"aie, coup dure pour {_player}")
             return -1
     except ValueError:
-            print('Value Error')
+            print('Mince, tu n as plus de temps')
+
+if __name__ == '__main__':
+    conversion(10, 'lobthere', 5)
