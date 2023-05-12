@@ -1,11 +1,18 @@
 import conversion
-import timer
+from time import sleep
+from threading import Thread
+
 
 print("bonjour, bienvenue sur le programmme d'entrainenement au calcule mental")    #on dit bonjour au joueur
 
 player_name = input("Choisit ton nom joueur : ")                                    #on retient son nom
 print(f"Bonjour {player_name}")
 pts = 0
+
+def timer(_time: int):
+    for i in range(0, _time, 1):
+        sleep(1)
+    
 
 while True:
         print("merci de selectionner votre programme : ")                                   #on l invite a selectionner le programme
@@ -74,3 +81,4 @@ while True:
             elif programme == '4':
                 print("fin du programme")
                 break
+leader_board =  None

@@ -1,24 +1,16 @@
-from threading import Thread, Timer
+from threading import Thread
 from time import sleep
+import sys
 
-def _timer(_time):
-    class ThreadCustom(Thread):
+def timer():
+    for i in range(5):
+        sleep(1)   #waits 45 seconds
+    sys.exit() #stops program after timer runs out, you could also have it print something or keep the user from attempting to answer any longer
 
-        def __init__(self):
-            Thread.__init__(self)
-            self.value = None
+def question():
+    answer = input("foo?")
 
-        def test(self, imi):
-            self.time = imi
-
-        def run(self):
-            sleep(self.time)
-            self.value = 'hello world!'
-
-
-    thread = ThreadCustom()
-    thread.test(_time)
-    thread.start()
-    thread.join()
-    data = thread.value
-    return data
+t1 = Thread(target=timer)
+t2 = Thread(target=question)
+t1.start() #Calls first function
+t2.start() #Calls second function to run at same time
