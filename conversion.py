@@ -1,7 +1,7 @@
 import random
 from time import sleep
 
-def conversion(valueMax: int, _player, time):
+def conversion(valueMax: int, _player):
     listes = ['bin', 'hex', 'int']
     convertFrom = random.choice(listes)
     listes.remove(convertFrom)
@@ -28,4 +28,4 @@ def conversion(valueMax: int, _player, time):
             print('Mince, tu n as plus de temps')
 
 if __name__ == '__main__':
-    conversion(10, 'lobthere', 5)
+    conversion(10, 'lobthere')
