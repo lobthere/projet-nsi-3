@@ -1,46 +1,31 @@
 import random
+from time import sleep
 
-def conversion():
-    q1 = None
-    responce = None
-    listes = ['b', 'h', 'd']
+def conversion(valueMax: int, _player):
+    listes = ['bin', 'hex', 'int']
     convertFrom = random.choice(listes)
     listes.remove(convertFrom)
     convertTo = random.choice(listes)
-    daNumber = random.randint(0, 1025)
-    if convertFrom == 'b':
-        q1 = bin(daNumber)[2:]
-        if convertTo == 'h':
-            responce = hex(daNumber)[2:]
-        elif convertTo == 'd':
-            responce = daNumber
-    elif convertFrom == 'h':
-        q1 = hex(daNumber)[2:]
-        if convertTo == 'b':
-            responce = bin(daNumber)[2:]
-        elif convertTo == 'd':
-            responce = daNumber
-    elif convertFrom == 'd':
-        q1 = daNumber
-        if convertTo == 'b':
-            responce = bin(daNumber)[2:]
-        elif convertTo == 'h':
-            responce = hex(daNumber)[2:]
-    
-    if convertTo == 'b':
-        convert = 'binaire'
-    elif convertTo == 'h':
-        convert = 'hexadecimal'
-    elif convertTo == 'd':
-        d = 'decimal'
-
-    userResponce = input(f"qu'elle est la conversion de {q1} en {convert} : ")
+    daNumber = random.randint(0, valueMax)
     try:
-        if str(userResponce) == str(responce):
-            print('bravo')
+        q1 = eval(f'{convertFrom}({daNumber})')[2:]
+    except TypeError:
+        q1 = eval(f'{convertFrom}({daNumber})')
+    try:
+        convert = eval(f'{convertTo}({daNumber})')[2:]
+    except TypeError:
+        convert = eval(f'{convertTo}({daNumber})')
+
+    try:
+        userResponce = input(f"qu'elle est la conversion de {q1} ({convertFrom}) en {convertTo} : ")
+        if str(userResponce) == str(convert):
+            print(f"Bravo {_player}")
+            return 1
         else :
-            print('aïe, coup dure pour phillipe')
+            print(f"aie, coup dure pour {_player}")
+            return -1
     except ValueError:
-        print('PETIT CON C DES PT DE NUMBRES QU IL FAUT RENTRER CONNARD')
-    
-conversion()
+            print('Mince, tu n as plus de temps')
+
+if __name__ == '__main__':
+    conversion(10, 'lobthere', 5)
