@@ -22,10 +22,10 @@ def conversion(valueMax: int, _player, time):
             print(f"Bravo {_player}")
             return 1
         else :
-            print(f"aie, coup dure pour {_player}")
+            print(f"ton pere la pute {_player}")
             return -1
     except ValueError:
-            print('Mince, tu n as plus de temps')
+            print('You have a gros shnak')
 
 if __name__ == '__main__':
     conversion(10, 'lobthere', 5)
