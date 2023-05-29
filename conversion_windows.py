@@ -1,12 +1,15 @@
 from tkinter import *
 from PIL import Image, ImageTk
 import time
+import random
 
 def converion_window_tkt():
     _width = 500
     _height = 500
     color = 'gray'
-    _tmax = 6
+    _tmax = 60
+    global score
+    score = 0
 
     surface = Tk()
     surface.title("conversion")
@@ -21,18 +24,47 @@ def converion_window_tkt():
 
     """___les explications___"""
 
-    txt_exp = Label(surface, text="complete le plus de bonne réponce avant la fin du temps imparti", bg=color, font=("Arial", 12))
+    txt_exp = Label(surface, text="complete le plus de bonne réponse avant la fin du temps imparti", bg=color, font=("Arial", 12))
     txt_exp.place(relx=.05, rely=.2)
 
     """___les fonctions___"""
     def printInput():
-        global is_entered
+        global score
+
         _input = get_reponce.get()
         get_reponce.delete(0, 'end')
-        question_box.config(text=_input)
+       
+        listes = ['bin', 'hex', 'int']
+        convertFrom = random.choice(listes)
+        listes.remove(convertFrom)
+        convertTo = random.choice(listes)
+        daNumber = random.randint(0, 100)
+        try:
+            q1 = eval(f'{convertFrom}({daNumber})')[2:]
+        except TypeError:
+            q1 = eval(f'{convertFrom}({daNumber})')
+        try:
+            convert = eval(f'{convertTo}({daNumber})')[2:]
+        except TypeError:
+            convert = eval(f'{convertTo}({daNumber})')
+        
+        userquestion = (f"qu'elle est la conversion de {q1} ({convertFrom}) en {convertTo} : ")
+
+        question_box.config(text=userquestion)
+        reponce_to_question.config(text=convert)
+
+        print(convert)
+        print(_input)
+        if _input == convert:
+            score += 1
+            text_to_show = (f"score: {score}")
+            score.config(text=text_to_show)
+
+        
+        
+        
 
     def timer(tmax):
-        global is_entered
         timer_txt.config(text=tmax)
         if tmax != 0:
             tmax = tmax - 1
@@ -40,16 +72,25 @@ def converion_window_tkt():
         else:
             timer_txt.config(text='temps écoulé')
             button_timer.place(relx=.4, rely=.5)
+            button_responce.place(relx=25, rely=25)
+            question_box.place(relx=25, rely=25)
+            get_reponce.place(relx=25, rely=25)
+            reponce_to_question.place(relx=25, rely=25)
 
     def start_timer():
         timer(_tmax)
         button_timer.place(relx=25, rely=25)
+        button_responce.place(relx=.5, rely=.6)
+        question_box.place(relx=.1, rely=.45)
+        get_reponce.place(relx=.1, rely=.6)
+        reponce_to_question.place(relx=.8, rely=.59)
+        printInput()
 
     """___button___"""
     button_responce = Button(surface, text='Entrer', command=printInput)
-    button_responce.place(relx=.5, rely=.6)
+    
 
-    button_timer = Button(surface, text='Start', command=start_timer)
+    button_timer = Button(surface, text='Start', command=start_timer, font=('Arial', 25))
     button_timer.place(relx=.4, rely=.5)
 
 
@@ -58,13 +99,17 @@ def converion_window_tkt():
     text_1.place(anchor=CENTER, relx=.48, rely=.1)
 
     timer_txt = Label(surface, text=_tmax, bg=color, font=('Arial', 25))
-    timer_txt.place(relx=.1, rely=.35)
+    timer_txt.place(relx=.3, rely=.35)
 
-    question_box = Label(surface, text="prompt", bg=color, font=('Arial', 25))
-    question_box.place(relx=.1, rely=.45)
+    question_box = Label(surface, text="prompt", bg=color, font=('Arial', 15))
+    
 
     get_reponce = Entry(surface, width=15, font=('Arial', 15))
-    get_reponce.place(relx=.1, rely=.6)
+    
+    score = Label(surface, text=(f"score: {score}"), bg=color, font=('Arial', 15))
+    score.place(relx=.1, rely=.8)
+
+    reponce_to_question = Label(surface, text='Prompt', bg=color, font=('Arial', 15))
 
     surface.mainloop()
 
