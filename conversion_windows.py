@@ -6,7 +6,8 @@ def converion_window_tkt():
     _width = 500
     _height = 500
     color = 'gray'
-    _tmax = 5
+    _tmax = 50
+    is_entered = False
 
     surface = Tk()
     surface.title("conversion")
@@ -20,17 +21,24 @@ def converion_window_tkt():
 
     """___les fonctions___"""
     def printInput():
+        global is_entered
         _input = get_reponce.get(1.0, 'end')
         get_reponce.delete(1.0, 'end')
         question_box.config(text=_input)
+        is_entered = True
 
     def timer(tmax):
-        tmax = tmax - 1
+        global is_entered
         timer_txt.config(text=tmax)
         if tmax != 0:
+            tmax = tmax - 1
             surface.after(1000, timer, tmax)
         else:
             timer_txt.config(text='temps écoulé')
+            surface.after(10, timer, tmax)
+            if is_entered == True:
+                tmax = _tmax
+                is_entered = False
 
     """___button___"""
     button_responce = Button(surface, text='Entrer', command=printInput)
