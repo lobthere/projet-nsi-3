@@ -6,8 +6,13 @@ color = 'gray'
 
 
 """___Le debut___"""
-def t():
-    surface.destroy
+def conversion():
+    surface.destroy()
+    conversion_srf = Tk()
+    conversion_srf.title("conversion")
+    conversion_srf.configure(width=500, height=500, bg=color)
+    conversion_srf.geometry('500x500')
+    conversion_srf.mainloop()
 
 surface = Tk()
 surface.title("Un jeu de memoire")
@@ -22,17 +27,10 @@ text_1.place(anchor=CENTER, relx=.48, rely=.2)
 b_arithmetique = Button(surface, text="arithmetique", command=None)
 b_arithmetique.place(relx= .2, rely=.5)
 
-b_conversion = Button(surface, text="conversion", command=t())
+b_conversion = Button(surface, text="conversion", command=conversion)
 b_conversion.place(relx=.45, rely=.5)
 
 b_logique = Button(surface, text="logique", command=None)
 b_logique.place(relx=.7, rely=.5)
 
-
-
-surface.mainloop()
-
-surface = Tk()
-surface.title("Conversion")
-surface.configure(width=200, height=200, bg='red')
 surface.mainloop()
