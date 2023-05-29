@@ -1,5 +1,6 @@
 from tkinter import *
-import conversion_windows
+from PIL import Image, ImageTk
+from conversion_windows import *
 
 _width = 500
 _height = 500
@@ -9,14 +10,15 @@ color = 'gray'
 """___Le debut___"""
 def conversion():
     surface.destroy()
-    conversion_srf = Tk()
-    conversion_srf.title("conversion")
-    conversion_srf.configure(width=500, height=500, bg=color)
-    conversion_srf.geometry('500x500')
-    conversion_srf.mainloop()
+    converion_window_tkt()
 
 surface = Tk()
 surface.title("Un jeu de memoire")
+
+icone = Image.open('imports/logo.png')
+icone2 = ImageTk.PhotoImage(icone)
+surface.wm_iconphoto(False, icone2)
+
 surface.configure(width=_width, height=_height, bg=color)
 surface.geometry(f"{_width}x{_height}")
 
