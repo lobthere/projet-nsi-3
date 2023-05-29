@@ -4,7 +4,8 @@ import time
 from threading import Thread
 from random import *
 from tkinter import messagebox
-import sys
+
+after_id = None
 
 #Une fonction très simpliste pour l'exemple
 
@@ -17,7 +18,6 @@ score = 0
 
 
 def log(type: int):
-
     def commencer():
         Thread(target=gestion_temps).start()
 
@@ -28,7 +28,7 @@ def log(type: int):
         if type == 1:
             bouton_validation.config (command = logique)
         #fenetre.bind('<Return>', lambda event : T()) #La fonction sera exécutée à chaque fois que l'utilisateur appuie sur "Entrée"
-        while nb_seconde < 30:  # Teste si le temps est écoulé
+        while nb_seconde < 60:  # Teste si le temps est écoulé
             nb_seconde += 1
             time.sleep(1)
             zone_temps.config (text = nb_seconde)   # Affiche le temps écoulé
@@ -50,15 +50,47 @@ def log(type: int):
         if operateur == "^":
             b = choice([0,1])
         zone_question.config (text = "Que vaut "+str(a)+" "+str(operateur)+" "+str(b))
-        if saisie.get() == str(eval(f'({a}){operateur}({b})')):
+        reponse = eval(str(f'({a}){operateur}({b})'))
+        if int(saisie.get()) == reponse:
             score = score + 1
+            zone_resultat.configure(text="Très bien !")
+            scorelabel.config(text= "Your Score :" + str(score), bg= "powder blue")
+        else :
+            zone_resultat.configure(text=f"C'est faux ! La réponse était {reponse}.")
             scorelabel.config(text= "Your Score :" + str(score), bg= "powder blue")
         delete_text()
+    
+    def stop():
+        """ stop la minuteur """
+        # Annule l'appel programmé à la minuterie
+        global after_id
+        if after_id is not None:
+            zone_temps.after_cancel(after_id)
+            after_id = None
 
+    def fermeture():
+        stop()
+        fenetre.destroy()
+
+    def clicked():
+            messagebox.showwarning('Fini', 'Temps écoulée. Lâche le clavier philipe. Je te vois continuer de loin. Tu te STOP')
+
+    def rec():
+        messagebox.askquestion('Recommencer','Est-ce que tu veux continuer mon grand')
+        if "no":
+            fermeture()
+        if "yes":
+            NONE
 
     fenetre = tk.Tk()
-    fenetre.geometry('500x200')
+    fenetre.geometry('1920x1080')
     fenetre.title('Question')
+
+    #couleur du fond
+    canvas = Canvas(fenetre, width = 1920, height = 1080)      
+    canvas.pack()      
+    img = PhotoImage(file="nbg.png")      
+    canvas.create_image(0,0, anchor=NW, image=img)  
 
     # Zone affichage temps
     zone_temps = tk.Label (text = 'Temps', fg = "red", font = ("Helvetica", 15), anchor = W)
@@ -83,34 +115,28 @@ def log(type: int):
     saisie.place (x = 10, y = 85)
 
     #indiquateur de score
-    scorelabel = Label(text= "Your Score :" + str(score), bg= "powder blue")
+    scorelabel = tk.Label(text= "Your Score :" + str(score), bg= "powder blue")
     scorelabel.place(x=100, y=5, height= 35, width=100)
-
-    #indiquateur de bonne réponse
 
     # delete content from Text Box
     def delete_text():
         saisie.delete("0", "end")
+             
 
-    def clicked():
-        messagebox.showwarning('Fini', 'Temps écoulée. Lâche le clavier philipe. Je te vois continuer de loin. Tu te STOP')
-    
-    def rec():
-        messagebox.askquestion('Recommencer','Est-ce que tu veux continuer mon grand')
-        if "no":
-            fenetre.destroy()
-            exit()
-        else:
-            NONE
-    #couleur du fond
+    # Création d'un label pour afficher le résultat
+    zone_resultat = tk.Label(fenetre, text = "Zone résultat. " , bg ="white")
+    zone_resultat.place(x = 10, y = 120)
 
-    fenetre.configure(bg='cyan')
+    # Création d'un bouton Exit
+    bouton_sortir = tk.Button(fenetre, text = "Quitter", command = fermeture)
+    bouton_sortir.place (x = 10, y = 150)
+
+
 
     bouton_commencer.config (command = commencer)
 
-
+    fenetre.protocol("WM_DELETE_WINDOW", fermeture)
     fenetre.mainloop()  # Boucle tant que la fenêtre n'est pas fermée
-    return reponse
 
 
 print(log(1))
