@@ -45,33 +45,9 @@ def converion_window_tkt():
             convert = eval(f'{convertTo}({daNumber})')
         
         userquestion = (f"qu'elle est la conversion de {q1} ({convertFrom}) en {convertTo} : ")
+        convert = str(convert)
         liste = [userquestion, convert]
         return liste
-
-    def printInput():
-        global score
-        global responce
-        global convert
-        global userquestion
-
-        responce = conversion()
-        
-        convert = responce[1]
-        userquestion = responce[0]
-
-        _input = get_reponce.get()
-
-        print(convert)
-        print(_input)
-        if _input == convert:
-            score += 1
-            text_to_show = (f"score: {score}")
-            score.config(text=text_to_show)
-
-        question_box.config(text=userquestion)
-        reponce_to_question.config(text=convert)
-
-        
 
     def timer(tmax):
         timer_txt.config(text=tmax)
@@ -87,16 +63,41 @@ def converion_window_tkt():
             reponce_to_question.place(relx=25, rely=25)
 
     def start_timer():
+        global r1
+        global responce
+        global question
         timer(_tmax)
         button_timer.place(relx=25, rely=25)
         button_responce.place(relx=.5, rely=.6)
         question_box.place(relx=.1, rely=.45)
         get_reponce.place(relx=.1, rely=.6)
         reponce_to_question.place(relx=.8, rely=.59)
-        printInput()
+        r1 = conversion()
+        responce = r1[1]
+        question = r1[0]
+        question_box.config(text=question)
+        reponce_to_question.config(text=responce)
+
+    def after():
+        global r1
+        global responce
+        global question
+        global score
+        r2 = get_reponce.get()
+        if r2 == responce:
+            score += 1
+            score_box.config(text=(f'score : {score}'))
+        get_reponce.delete(0, 'end')
+
+        r1 = conversion()
+        responce = r1[1]
+        question = r1[0]
+        question_box.config(text=question)
+        reponce_to_question.config(text=responce)
+
 
     """___button___"""
-    button_responce = Button(surface, text='Entrer', command=printInput)
+    button_responce = Button(surface, text='Entrer', command=after)
     
 
     button_timer = Button(surface, text='Start', command=start_timer, font=('Arial', 25))
@@ -114,8 +115,8 @@ def converion_window_tkt():
     
     get_reponce = Entry(surface, width=15, font=('Arial', 15))
     
-    score = Label(surface, text=(f"score: {score}"), bg=color, font=('Arial', 15))
-    score.place(relx=.1, rely=.8)
+    score_box = Label(surface, text=(f"score: {score}"), bg=color, font=('Arial', 15))
+    score_box.place(relx=.1, rely=.8)
 
     reponce_to_question = Label(surface, text='Prompt', bg=color, font=('Arial', 15))
 

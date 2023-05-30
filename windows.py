@@ -1,6 +1,7 @@
 from tkinter import *
-from PIL import Image, ImageTk
+from PIL import Image, ImageTk as tk
 from conversion_windows import *
+from calcul_logique_tkt_mon_reuf import *
 
 _width = 500
 _height = 500
@@ -12,10 +13,14 @@ def conversion():
     surface.destroy()
     converion_window_tkt()
 
+def logique():
+    surface.destroy()
+    logitech()
+
 surface = Tk()
 surface.title("Un jeu de memoire")
 
-icone = Image.open('imports/logo.png')
+icone = tk.Image.open('imports/logo.png')
 icone2 = ImageTk.PhotoImage(icone)
 surface.wm_iconphoto(False, icone2)
 
@@ -33,7 +38,7 @@ b_arithmetique.place(relx= .2, rely=.5)
 b_conversion = Button(surface, text="conversion", command=conversion)
 b_conversion.place(relx=.45, rely=.5)
 
-b_logique = Button(surface, text="logique", command=None)
+b_logique = Button(surface, text="logique", command=logique)
 b_logique.place(relx=.7, rely=.5)
 
 surface.mainloop()
