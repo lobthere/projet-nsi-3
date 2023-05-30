@@ -28,12 +28,8 @@ def converion_window_tkt():
     txt_exp.place(relx=.05, rely=.2)
 
     """___les fonctions___"""
-    def printInput():
-        global score
 
-        _input = get_reponce.get()
-        get_reponce.delete(0, 'end')
-       
+    def conversion():
         listes = ['bin', 'hex', 'int']
         convertFrom = random.choice(listes)
         listes.remove(convertFrom)
@@ -49,9 +45,21 @@ def converion_window_tkt():
             convert = eval(f'{convertTo}({daNumber})')
         
         userquestion = (f"qu'elle est la conversion de {q1} ({convertFrom}) en {convertTo} : ")
+        liste = [userquestion, convert]
+        return liste
 
-        question_box.config(text=userquestion)
-        reponce_to_question.config(text=convert)
+    def printInput():
+        global score
+        global responce
+        global convert
+        global userquestion
+
+        responce = conversion()
+        
+        convert = responce[1]
+        userquestion = responce[0]
+
+        _input = get_reponce.get()
 
         print(convert)
         print(_input)
@@ -60,8 +68,9 @@ def converion_window_tkt():
             text_to_show = (f"score: {score}")
             score.config(text=text_to_show)
 
-        
-        
+        question_box.config(text=userquestion)
+        reponce_to_question.config(text=convert)
+
         
 
     def timer(tmax):
@@ -103,7 +112,6 @@ def converion_window_tkt():
 
     question_box = Label(surface, text="prompt", bg=color, font=('Arial', 15))
     
-
     get_reponce = Entry(surface, width=15, font=('Arial', 15))
     
     score = Label(surface, text=(f"score: {score}"), bg=color, font=('Arial', 15))
