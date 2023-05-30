@@ -90,7 +90,6 @@ def converion_window_tkt():
         get_reponce.delete(0, 'end')
 
         r1 = conversion()
-        "test"
         responce = r1[1]
         question = r1[0]
         question_box.config(text=question)
