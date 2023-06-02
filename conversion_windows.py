@@ -2,6 +2,7 @@ from tkinter import *
 from PIL import Image, ImageTk
 import time
 import random
+import json
 
 def converion_window_tkt():
     _width = 500
@@ -10,6 +11,15 @@ def converion_window_tkt():
     _tmax = 60
     global score
     score = 0
+
+    """__on charge les fichiers___"""
+    info_to_load = open('info_to_load.txt', 'r')
+    info_to_load = info_to_load.read()
+    info_to_load = info_to_load.replace('"', '')
+    info_from_other_py_file = eval(info_to_load)
+    player = info_from_other_py_file[0]
+    player_score = info_from_other_py_file[1]
+    
 
     surface = Tk()
     surface.title("conversion")
@@ -60,7 +70,28 @@ def converion_window_tkt():
             button_responce.place(relx=25, rely=25)
             question_box.place(relx=25, rely=25)
             get_reponce.place(relx=25, rely=25)
-            reponce_to_question.place(relx=25, rely=25)
+            player_name.place(relx=25, rely=25)
+
+            if info_from_other_py_file[2] == None:
+                pass
+            else:
+                player_score.append(score)
+
+                with open('player.json') as file:
+                    content = json.load(file)
+                
+                for i in range(0, len(content['users']), 1):
+                    if content['users'][i][player] == player:
+                        c = True
+                        to_save = content['users'][i]
+                if c == True:
+                    to_save[score] = player_score
+                else:
+                    content['users'] += {'player': player, 'score': player_score}
+
+                with open('player.json', 'w') as test:
+                    test.write(content)
+
 
     def start_timer():
         global r1
@@ -71,12 +102,10 @@ def converion_window_tkt():
         button_responce.place(relx=.5, rely=.6)
         question_box.place(relx=.1, rely=.45)
         get_reponce.place(relx=.1, rely=.6)
-        reponce_to_question.place(relx=.8, rely=.59)
         r1 = conversion()
         responce = r1[1]
         question = r1[0]
         question_box.config(text=question)
-        reponce_to_question.config(text=responce)
 
     def after():
         global r1
@@ -93,7 +122,6 @@ def converion_window_tkt():
         responce = r1[1]
         question = r1[0]
         question_box.config(text=question)
-        reponce_to_question.config(text=responce)
 
 
     """___button___"""
@@ -118,7 +146,8 @@ def converion_window_tkt():
     score_box = Label(surface, text=(f"score: {score}"), bg=color, font=('Arial', 15))
     score_box.place(relx=.1, rely=.8)
 
-    reponce_to_question = Label(surface, text='Prompt', bg=color, font=('Arial', 15))
+    player_name = Label(surface, text=f"player: {player}", bg=color, font=('Arial', 15))
+    player_name.place(relx=.6, rely=.8)
 
     surface.mainloop()
 

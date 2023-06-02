@@ -2,12 +2,13 @@ from tkinter import *
 from PIL import Image, ImageTk as tk
 from conversion_windows import *
 from calcul_logique_tkt_mon_reuf import *
-import json
+from json import *
 
 
 _width = 500
 _height = 500
 color = 'gray'
+file = 'player.json'
 
 
 """___Le debut___"""
@@ -35,13 +36,39 @@ text_1.place(anchor=CENTER, relx=.48, rely=.2)
 
 """__base pour les pseudos et les scores___"""
 
-f_player_temp = open('player.json')
-f_player_data = json.load(f_player_temp)
+with open(file) as user_player:
+    user_content = load(user_player)
+
 
 """___les def___"""
 def player_button():
     player_username = player.get()
-    print(player_username)
+
+    def check():
+        a = user_content['users']
+        for i in range(0, len(a), 1):
+            if a[i]['player'] == player_username:
+                c = True
+            else:
+                c = False
+            if c == True:
+                to_return = [c, a[i]]
+                break
+        if c == False:
+            to_return = [c, None]
+        return to_return
+    
+    does_exist = check()
+    if does_exist[0] == True:
+        score_of_player = does_exist[1]['score']
+    else:
+        score_of_player = []
+    
+    txt_to_save = f"['{player_username}', {score_of_player}, {does_exist[1]}]"
+
+    to_save = open('info_to_load.txt', 'w')
+    to_save.write(txt_to_save)
+
     b_logique.place(relx=.7, rely=.5)
     b_arithmetique.place(relx= .2, rely=.5)
     b_conversion.place(relx=.45, rely=.5)
